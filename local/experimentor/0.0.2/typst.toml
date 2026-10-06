@@ -1,0 +1,12 @@
+[package]
+name = "experimentor"
+version = "0.0.2"
+entrypoint = "lib.typ"
+authors = ["Heinrich Lauterbach <@HeiLaut>"]
+license = "MIT"
+description = "drawing stand material"
+
+[template]
+path = "template"
+entrypoint = "lib.typ"
+thumbnail = "thumbnail.png"
