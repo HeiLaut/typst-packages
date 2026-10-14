@@ -115,3 +115,52 @@
   })
 }
 
+
+#let diaStripes(pos,w:4,dens:7,..style)={
+  import cetz.draw:*
+  group({
+    set-style(stroke: (cap: "round"))  // dein Default
+    set-style(..style)   
+  set-origin(pos)
+  for i in range(0,w*dens){
+    line((i/dens,0),(rel:(0.2,0.2)),stroke:(cap:"round"))    
+  }
+})
+}
+
+
+#let pendulum(ang :20deg,length:5cm,name:none,labels:true,fg:2,color:red.lighten(50%))={
+ import cetz.draw:*
+
+  //let ang = 20deg
+  let dx = -length*calc.sin(ang)
+  let dy = -length*calc.cos(ang)
+  let pendelPunkt = (dx,dy)
+  group(name: name,{
+    circle(pendelPunkt,radius:0.3,fill:color)
+    
+    line((-2,0),(2,0))
+    line((0,0),pendelPunkt,name:"length")
+    if(ang != 0deg){
+      arc((0,-2),start:270deg,delta:-ang,radius:2,name:"winkel")
+        arc((0,-length),start:270deg,delta:-ang,radius:length,stroke:(paint:gray,dash:"dashed"),name:"auslenkung")
+    }
+    line((0,0),(0,-length),stroke:(dash:"dashed"))
+    line((0,dy),(dx,dy),stroke:(dash:"dashed"),name:"dx")
+  
+    line(pendelPunkt,(rel:(0,-fg)), mark:(end:")>",fill:red),name:"FG",stroke:red)
+    line(pendelPunkt,(rel:(angle:-ang,radius:fg*calc.sin(ang))), mark:(end:")>",fill:blue),name:"FR",stroke:blue)
+    line(pendelPunkt,(rel:(angle:90deg-ang,radius:fg*calc.cos(ang))), mark:(end:")>",fill:green.darken(20%)),name:"FN",stroke:green.darken(20%))
+    //line("FR.end","FN.end",stroke:(dash:"dashed",paint:gray))
+
+    if(labels){
+      if(ang != 0deg){
+        content("auslenkung.mid",padding:2pt,anchor:"north",$y$)
+        content("winkel.mid",padding:4pt,anchor:"south",$phi$)
+        content("dx",anchor: "south",padding:4pt,$x$)
+      }
+      content("length",anchor:"east",padding:4pt,$ell$)
+    }
+    anchor("end",(dx,dy))
+  })
+}
