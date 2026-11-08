@@ -77,6 +77,46 @@
     })
   })
 }
+
+#let forceSensor(pos,name:none,..style) = {
+  import cetz.draw: *
+  group(name: name,..style, {
+  set-origin(pos)
+
+  scale(20%)
+  translate(x:-5.4,y:-4.6)
+    
+  let sw = 1pt
+  let hook-stroke = (thickness: 2pt, cap: "round", join: "round")
+
+// Haken
+  let x = 3.88      // x-Position des Schafts
+  let l = 0.9       // Schaftlänge
+  let r1 = 0.8      // Radius der Hauptkrümmung
+ line((x, 0), (x, -l), stroke: hook-stroke)
+  // Unterer Halbkreis (Start links, im Gegenuhrzeigersinn nach rechts)
+  arc((x, -l), start: 100deg, stop: 360deg, radius: r1, stroke: hook-stroke)
+    
+  anchor("hook",(rel:(-r1,-r1)))  
+// Aufnahme (Trapez) hinter der Box
+
+merge-path(fill:luma(100),..style,
+      {
+   boolean(
+  { line((2.85, 4.2), (3.1, 5.8), (5.2, 5.8), (5.4, 4.2), close: true) },
+  { circle((4.1, 4.8), radius: 0.5) },
+  op: "difference",
+)
+})
+
+  // Gehäuse
+  rect((0, 0), (8, 4.2), stroke: sw,fill:gray, ..style)
+  line((0, 3.9), (8, 3.9), stroke: 0.5pt)
+  line((0, 0.3), (rel:(8,0)), stroke: 0.5pt)
+  })
+  
+}
+
 #let mass(pos, name: none,d:0.48,h:0.6,rot: 0deg, ..style) = {
   import cetz.draw: *
   group(name: name, {
