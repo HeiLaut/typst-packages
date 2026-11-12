@@ -119,13 +119,16 @@ merge-path(fill:luma(100),..style,
 
 #let mass(pos, name: none,d:0.48,h:0.6,rot: 0deg, ..style) = {
   import cetz.draw: *
-  group(name: name, {
+  group(name: name,{
       set-origin(pos)
       rotate(rot)
+
       arc((0,-0.15),start:-90deg,stop:180deg,stroke:(thickness:0.05,cap:"round"),radius:0.07)
       line((0,-0.15),(rel:(0,-0.1)),stroke:1.5pt)
-      rect((rel:(-d/2,0)),(rel:(d,-h)),radius:0.02,fill: gradient.linear(black.lighten(20%), white,black.lighten(20%),angle:- rot))
-      anchor("bottom", (0,-h - 0.25))
+      
+      rect((rel:(-d/2,0)),(rel:(d,-h)),radius:0.02,fill: gradient.linear(black.lighten(20%), white,black.lighten(20%),angle:- rot),..style)
+      anchor("mid",(0,-h/2- 0.25))
+      anchor("bottom", (0,- h - 0.25))
       anchor("top", (0,0))
   })
 }
