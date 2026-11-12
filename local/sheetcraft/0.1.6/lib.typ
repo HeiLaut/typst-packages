@@ -21,7 +21,7 @@
   text-size: 11pt,
   solutions: false, 
   info: "",
-
+  header-title: auto,
   body,
 ) = {
  _solutions.update(solutions)
@@ -65,8 +65,13 @@
     ),
     binding: left,
 
-    header: context {
+      header: context {
       let page-num = counter(page).get().at(0)
+      let head = if header-title == auto {
+        hydra(1, skip-starting: false)
+      } else {
+        header-title
+      }
       if page-num == 1 and exam == true {
         exam-head
       } else {
@@ -74,7 +79,7 @@
           #place(left, dx: -0.5cm, dy: top-margin - 1.4cm)[
             #rect(width: 100% - 2cm, height: 1cm)[#align(
               horizon,
-            )[*#context hydra(1, skip-starting: false)*]]
+            )[*#head*]]
           ]
           #place(right, dx: 0.5cm, dy: top-margin - 1.4cm)[
             #rect(width: 3cm, height: 1cm, fill: black, stroke: black)[#align(
@@ -307,7 +312,7 @@
     )),
   )
 })
-}
+
 
 #let line-paper(width, height, spacing: 7mm) = {
   let lines = int(height / spacing)
